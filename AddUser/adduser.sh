@@ -5,7 +5,7 @@
 # add user ,set default password, set OUTPUT ip 
 # @author heguangyu 
 ###############################
-password="1qdpjwlfg0rw9ZmnbusTtCjzgY6ubE" #user default password
+password="password" #user default password
 
 if [ $# -lt 2 ] ; then
    echo "error params "
