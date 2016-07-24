@@ -3,7 +3,9 @@
 
 ##脚本说明
 
-* [AddUser](https://github.com/heguangyu1989/esayscript/tree/master/AddUser)
+* [AddUser](https://github.com/heguangyu1989/easyscript/tree/master/AddUser)
 服务器上使用默认密码添加用户，同时指定用户出口ip
-* [PublishServer](https://github.com/heguangyu1989/esayscript/tree/master/PublishServer)
+* [PublishServer](https://github.com/heguangyu1989/easyscript/tree/master/PublishServer)
 发布server或者admin脚本
+* [MakeDBModel](https://github.com/heguangyu1989/easyscript/tree/master/MakeDBModel)
+更具数据库表生成Model
