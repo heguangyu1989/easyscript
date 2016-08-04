@@ -8,4 +8,4 @@
 * [PublishServer](https://github.com/heguangyu1989/easyscript/tree/master/PublishServer)
 发布server或者admin脚本
 * [MakeDBModel](https://github.com/heguangyu1989/easyscript/tree/master/MakeDBModel)
-更具数据库表生成Model
+根据数据库表生成Model
