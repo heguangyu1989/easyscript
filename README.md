@@ -1,5 +1,6 @@
 # EasyScript
 一些简单的脚本！
+Some EasyScript
 
 ##脚本说明
 
