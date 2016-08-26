@@ -51,9 +51,75 @@ function draw_date_img($data, $name)
     imagepng($img, $name.'.png');
 }
 
+function print_data_to_csv($user, $data, $start_time, $end_time)
+{
+    $res_lines = array();
+    $line1 = array();
+    $line1[] = '分析用户';
+    $line1[] = '分析开始日期';
+    $line1[] = '分析结束 日期';
+    $line1[] = '总计提交次数';
+    $line1[] = '总计修改文件个数';
+    $line1[] = '涉及redmine任务数';
+    $line2 = array();
+    $line2[] = $user;
+    $line2[] = date('Y-m-d', $start_time);
+    $line2[] = date('Y-m-d', $end_time);
+    $line2[] = $data['svn_update_count'];
+    $line2[] = $data['updatefiles']['count'];
+    $line2[] = count($data['redmine']);
+    $res_lines[] = $line1;
+    $res_lines[] = $line2;
+    
+     $line3 = array();
+     $res_lines[] = $line3;
+     $line3[] = '每日提交次数(日期)';
+     $line3[] = '次数';
+     $res_lines[] = $line3;
+     foreach ($data['dates'] as $k => $v)
+     {
+         $res_lines[] = array($k,$v);
+     }
+     
+     $line4 = array();
+     $res_lines[] = $line4;
+     $line4[] = '被修改的文件';
+     $line4[] = '修改次数';
+     $res_lines[] = $line4;
+     foreach ($data['updatefiles'] as $k => $v)
+     {
+         if($k != 'count')
+         {
+             $res_lines[] = array($k,$v);
+         }
+     }
+     
+    $line5 = array();
+    $res_lines[] = $line5;
+    $line5[] = 'redmine情况';
+    $line5[] = '问题编号';
+    $line5[] = '修改次数';
+    $line5[] = '提交描述';
+    $res_lines[] = $line5;
+    foreach ($data['redmine'] as $key => $val)
+    {
+        foreach ($val['msg']  as $msg)
+        {
+            $res_lines[] = array('', $key,$val['count'], $msg);
+        }
+    }
+    
+    foreach ($res_lines as $val)
+    {
+        $str = implode(',',  $val);
+        //$str = iconv('UTF-8', 'UCS-2', $str);
+        file_put_contents($user.'_analyze.csv', $str.PHP_EOL, FILE_APPEND);
+    }
+}
+
 // 0.set start time and endtime
-$start_time = mktime(0, 0, 0, 7, 26, 2016);
-$end_time = mktime(0, 0, 0, 8, 20, 2016);
+$start_time = mktime(0, 0, 0, 8, 22, 2016);
+$end_time = mktime(0, 0, 0, 8, 26, 2016);
 if($start_time + 86400 > $end_time)
 {
     exit("start time and end time must more than one day means 86400s");
@@ -115,7 +181,7 @@ exec($cmd, $output);
 $xml = implode($output);
 $xml_arr = simplexml_load_string($xml);
 $res = array();
-$log_users = array('zhaocheng'=>1);
+$log_users = array('heguangyu'=>1);
 foreach ($xml_arr as $key => $val)
 {
     $data = (array)$val;
@@ -139,14 +205,16 @@ foreach ($xml_arr as $key => $val)
         }
     }
     $parten = '/\#\d+/i';
-    preg_match_all($parten, $data['msg'].$data['msg'], $match);
+    preg_match_all($parten, $data['msg'], $match);
     foreach ($match[0] as $redmine)
     {
-         $res[$data['author']]['redmine'][$redmine] += 1; 
+         $res[$data['author']]['redmine'][$redmine]['count'] += 1; 
+         $res[$data['author']]['redmine'][$redmine]['msg'][] = $data['msg'];
     }
 }
-draw_date_img($res['zhaocheng']['dates'], 'zhaocheng_dailyupdate');
+// draw_date_img($res['zhaocheng']['dates'], 'zhaocheng_dailyupdate');
 print_r($res);
+print_data_to_csv('heguangyu', $res['heguangyu'], $start_time, $end_time);
 
 
 
