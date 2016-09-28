@@ -10,3 +10,5 @@ Some EasyScript
 发布server或者admin脚本
 * [MakeDBModel](https://github.com/heguangyu1989/easyscript/tree/master/MakeDBModel)
 根据数据库表生成Model
+* [AnalyzeSvnLog](https://github.com/heguangyu1989/easyscript/tree/master/AnalyzeSvnLog)
+分析svn日志，生成报表
