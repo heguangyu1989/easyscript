@@ -12,5 +12,5 @@ Some EasyScript
 根据数据库表生成Model
 * [AnalyzeSvnLog](https://github.com/heguangyu1989/easyscript/tree/master/AnalyzeSvnLog)
 分析svn日志，生成报表
-* [CompareDatabase](https://github.com/heguangyu1989/easyscript/master/CompareDatabase)
+* [CompareDatabase](https://github.com/heguangyu1989/easyscript/tree/master/CompareDatabase)
 对比数据表，表字段的不同
