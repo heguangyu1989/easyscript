@@ -14,3 +14,5 @@ Some EasyScript
 分析svn日志，生成报表
 * [CompareDatabase](https://github.com/heguangyu1989/easyscript/tree/master/CompareDatabase)
 对比数据表，表字段的不同
+* [RunNoLoginSh](https://github.com/hegunagyu1989/easyscript/tree/master/RunNoLoginSh)
+以Nologin用户运行命令
