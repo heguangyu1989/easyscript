@@ -1,6 +1,6 @@
 #!/bin/bash
 
-############################### 
+################################
 # run shell as nologin user
 # where i use laravel
 # i want run some commands by the user which run php-fpm 
@@ -12,4 +12,7 @@ if [ $(id -u) != "0" ]; then
     exit 1
 fi
 
-/bin/su www -s artisan list 
+www=`ps aux|grep php-fpm|grep -v root|grep -v baocai|awk 'NR==1 {print $1}'`
+echo $www
+
+/bin/su $www -s artisan list 
