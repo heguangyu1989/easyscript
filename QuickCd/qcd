@@ -1,0 +1,48 @@
+#!/bin/bash
+
+echo "quick cd command"
+if [ $# -lt 1 ]; then
+    echo "0_0 no command input, i will use list"
+    CMD='list'
+else
+    CMD=$1
+fi
+echo $CMD
+CONFPATH=/usr/local/bin/qcd.conf
+
+case $CMD in
+list) echo "list all quick cd path..."
+while read line 
+do
+ cc=`echo $line |sed -n '/^#/p'`
+ if [ -z "$cc" ]; then
+    cmd_name=`echo $line |awk -F'=' '{print $1}'`
+    cmd_path=`echo $line |awk -F'=' '{print $2}'`
+    if [ -n "$cmd_name" ]; then
+        echo -e "    \033[0;31;1m ${cmd_name} \033[0m : you can use cmd [${cmd_name}] to jump to real path [$cmd_path]";
+    fi
+ fi
+done < $CONFPATH
+;;
+*) echo "jumping..."
+JUMP_PATH=''
+while read line
+do
+ cc=`echo $line |sed -n '/^#/p'`
+ if [ -z "$cc" ]; then
+    cmd_name=`echo $line |awk -F'=' '{print $1}'`
+    cmd_path=`echo $line |awk -F'=' '{print $2}'`
+    if [ -n "$cmd_name" ]; then
+        if [ $cmd_name == $CMD ]; then
+            JUMP_PATH=$cmd_path
+            break
+        fi
+    fi  
+ fi
+done < $CONFPATH
+if [ -n "$JUMP_PATH" ]; then
+    echo "jump path -- " $JUMP_PATH
+    cd $JUMP_PATH
+fi
+;;
+esac
