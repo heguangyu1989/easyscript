@@ -16,3 +16,5 @@ Some EasyScript
 对比数据表，表字段的不同
 * [RunNoLoginSh](https://github.com/heguangyu1989/easyscript/tree/master/RunNoLoginSh)
 以Nologin用户运行命令
+* [QuickCd](https://github.com/heguangyu1989/easyscript/tree/master/QuickCd)
+快速跳转
