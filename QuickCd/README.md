@@ -12,3 +12,7 @@
 3. ### edit qcd.conf     
 >example:    
 >my=/home/testuser01
+
+4. ### add path
+> - jump to path
+> - `j add ${NAME}` 

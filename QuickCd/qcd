@@ -1,17 +1,26 @@
 #!/bin/bash
 
-echo "quick cd command"
+echo_red() {
+echo -e "\033[31m"$1"\033[0m"
+}
+echo_green() {
+echo -e "\033[32m"$1"\033[0m"
+}
+echo_blue() {
+echo -e "\033[34m"$1"\033[0m"
+}
+
+echo_blue "quick cd command"
 if [ $# -lt 1 ]; then
-    echo "0_0 no command input, i will use list"
+    echo_blue "0_0 no command input, i will use list"
     CMD='list'
 else
     CMD=$1
 fi
-echo $CMD
 CONFPATH=/usr/local/bin/qcd.conf
 
 case $CMD in
-list) echo "list all quick cd path..."
+list) echo_green "list all quick cd path..."
 while read line 
 do
  cc=`echo $line |sed -n '/^#/p'`
@@ -19,12 +28,26 @@ do
     cmd_name=`echo $line |awk -F'=' '{print $1}'`
     cmd_path=`echo $line |awk -F'=' '{print $2}'`
     if [ -n "$cmd_name" ]; then
-        echo -e "    \033[0;31;1m ${cmd_name} \033[0m : you can use cmd [${cmd_name}] to jump to real path [$cmd_path]";
+        echo -e "    \033[31m ${cmd_name} \033[0m : you can use cmd [${cmd_name}] to jump to real path [$cmd_path]";
     fi
  fi
 done < $CONFPATH
 ;;
-*) echo "jumping..."
+add) echo_green "add pwd to list..."
+if [ "${2}" == "add" -o "${2}" == "list" ]; then
+    echo_red "can not use add or list as name"
+else
+    cat $CONFPATH |grep "^${2}="
+    if [ $? -eq 0 ]; then
+        echo_red "add key name ${2}  already exits"
+    else
+        PWD_NOW=`pwd`
+        echo "${2}=${PWD_NOW}" >> $CONFPATH
+        echo_green "add ${2}=${PWD_NOW} success"
+    fi
+fi
+;;
+*) echo_blue "jumping..."
 JUMP_PATH=''
 while read line
 do
@@ -41,8 +64,10 @@ do
  fi
 done < $CONFPATH
 if [ -n "$JUMP_PATH" ]; then
-    echo "jump path -- " $JUMP_PATH
+    echo_green "jump path : "$JUMP_PATH
     cd $JUMP_PATH
+else
+    echo_red "jump fail, please check list"
 fi
 ;;
 esac
